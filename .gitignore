@@ -1,0 +1,12 @@
+/.vscode
+/env
+
+*/images/*
+!*/images/default.jpg
+!*/images/profile_pics
+
+*/__pycache__
+*/migrations/*
+!*/migrations/__init__.py
+
+db.sqlite3

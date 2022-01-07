@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class='container mt-5'>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Delete Photo</legend>
+                    <h2>Are you sure you want to delete</h2>
+                    <img src="{{ object.image.url }}" width='300px'>
+                </fieldset>
+                <div class="form-group pt-3 mb-3">
+                    <button class="btn btn-outline-danger" type="submit">Delete!</button>
+                    <a class="btn btn-outline-secondary" href="{% url 'photo' object.id %}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
