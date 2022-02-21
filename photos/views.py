@@ -34,6 +34,7 @@ def viewPhoto(request, pk):
     return render(request, 'photos/photo.html', context)
 """
 
+
 class ViewPhoto(UserPassesTestMixin, DetailView):
     model = Photo
     template_name = 'photos/photo.html'
@@ -41,17 +42,17 @@ class ViewPhoto(UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(ViewPhoto, self).get_context_data(**kwargs)
         prev_url = self.request.META.get('HTTP_REFERER')
-        if prev_url==None:
-            prev_url=reverse('gallery')
-        if prev_url==self.request.build_absolute_uri('update')+'/':
-            prev_url=reverse('gallery')
-        context['prev_url']=prev_url
+        if prev_url is None:
+            prev_url = reverse('gallery')
+        if prev_url == self.request.build_absolute_uri('update') + '/':
+            prev_url = reverse('gallery')
+        context['prev_url'] = prev_url
         return context
 
     def test_func(self):
-        photo=self.get_object()
-        if photo.is_private == True:
-            if self.request.user==photo.auther:
+        photo = self.get_object()
+        if photo.is_private:
+            if self.request.user == photo.auther:
                 return True
             else:
                 return False
@@ -59,18 +60,16 @@ class ViewPhoto(UserPassesTestMixin, DetailView):
             return True
 
 
-
-
 class Gallery(ListView):
     model = Photo
     template_name = 'photos/gallery.html'
     context_object_name = 'photos'
-    paginate_by=9
+    paginate_by = 9
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(Gallery, self).get_context_data(**kwargs)
         _tag = self.request.GET.get('tag') or ''
-        search_tag=self.request.GET.get('tags') or ''
+        search_tag = self.request.GET.get('tags') or ''
         if _tag:
             tag = get_object_or_404(Tag, slug=_tag)
             context['is_tag'] = True
@@ -81,53 +80,51 @@ class Gallery(ListView):
     def get_queryset(self):
         _tag = self.request.GET.get('tag') or ''
         _search_tag = self.request.GET.get('tags') or ''
-        lst=_search_tag.split()
+        lst = _search_tag.split()
         if _tag:
-            qs=[]
+            qs = []
             for i in Photo.objects.filter(tags__slug=_tag):
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
-            
+
             return qs
-        
+
         if _search_tag:
-            qs=[]
+            qs = []
             for i in Photo.objects.filter(tags__name__in=lst).distinct():
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
-            
+
             return qs
 
         else:
-            qs=[]
+            qs = []
             for i in Photo.objects.all():
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
-            
+
             return qs
-
-
 
 
 class UserGallery(ListView):
     model = Photo
-    template_name='photos/user_photos.html'
-    context_object_name='photos'
-    paginate_by=9
+    template_name = 'photos/user_photos.html'
+    context_object_name = 'photos'
+    paginate_by = 9
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserGallery, self).get_context_data(**kwargs)
         _tag = self.request.GET.get('tag') or ''
-        search_tag=self.request.GET.get('tags') or ''
+        search_tag = self.request.GET.get('tags') or ''
         if _tag:
             tag = get_object_or_404(Tag, slug=_tag)
             context['is_tag'] = True
@@ -140,32 +137,32 @@ class UserGallery(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         _tag = self.request.GET.get('tag') or ''
         _search_tag = self.request.GET.get('tags') or ''
-        lst=_search_tag.split()
+        lst = _search_tag.split()
         if _tag:
-            qs=[]
-            for i in Photo.objects.filter(auther=user,tags__slug=_tag).order_by('-date_posted'):
+            qs = []
+            for i in Photo.objects.filter(auther=user, tags__slug=_tag).order_by('-date_posted'):
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
             return qs
-        
+
         if _search_tag:
-            qs=[]
+            qs = []
             for i in Photo.objects.filter(auther=user, tags__name__in=lst).distinct().order_by('-date_posted'):
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
             return qs
 
         else:
-            qs=[]
+            qs = []
             for i in Photo.objects.filter(auther=user).order_by('-date_posted'):
                 if i.is_private:
-                    if i.auther==self.request.user:
+                    if i.auther == self.request.user:
                         qs.append(i)
                 else:
                     qs.append(i)
@@ -189,53 +186,49 @@ def addPhoto(request):
     return render(request, 'photos/add.html', context)
 """
 
+
 class AddPhoto(LoginRequiredMixin, CreateView):
     model = Photo
-    template_name='photos/add.html'
+    template_name = 'photos/add.html'
     form_class = Upload
     success_url = reverse_lazy('gallery')
 
     def form_valid(self, form):
-        form.instance.auther=self.request.user
-        salt=str(binascii.hexlify(os.urandom(32)))
-        lst=[]
+        form.instance.auther = self.request.user
+        salt = str(binascii.hexlify(os.urandom(32)))
+        lst = []
         for i in salt:
             lst.append(i)
         lst.remove('b')
         lst.remove("'")
         lst.remove("'")
-        form.instance.image.name= ''.join(lst) + form.instance.image.name
+        form.instance.image.name = ''.join(lst) + form.instance.image.name
         return super().form_valid(form)
-
-
 
 
 class PhotoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Photo
-    template_name='photos/update.html'
-    context_object_name='photos'
-    form_class=Update
+    template_name = 'photos/update.html'
+    context_object_name = 'photos'
+    form_class = Update
 
     def form_valid(self, form):
-        form.instance.auther=self.request.user
+        form.instance.auther = self.request.user
         return super(PhotoUpdateView, self).form_valid(form)
 
     def test_func(self):
-        post=self.get_object()
-        if self.request.user==post.auther:
+        post = self.get_object()
+        if self.request.user == post.auther:
             return True
         return False
 
 
-
-
 class PhotoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Photo
-    success_url='/'
-
+    success_url = '/'
 
     def test_func(self):
-        post=self.get_object()
-        if self.request.user==post.auther:
+        post = self.get_object()
+        if self.request.user == post.auther:
             return True
         return False

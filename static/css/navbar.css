@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* navbar */
+
+.navbar {
+    display: flex;
+    background-color: #212529;
+    font-family: cascadia mono;
+    height: 65px;
+    
+}
+
+/* Left nav */
+
+.nav-list .nav-brand {
+    color: white;
+    font-size: 20px;
+}
+
+.nav-list {
+   width: 70%;
+   display:flex;
+   align-items: center;
+   padding-left: 20px;
+}
+
+.nav-list li{
+    padding: 10px 9px;
+    list-style: none;
+}
+
+.nav-list li a{
+    text-decoration: none;
+    color: #96989a;
+    transition: color 100ms ease-in;
+}
+
+/* rightNav */
+
+.rightNav {
+    display: flex;
+    list-style: none;
+    width: 30%;
+    align-items: center;
+    justify-content: end;
+    padding-right: 10px;
+}
+
+.rightNav li{
+    padding: 8px;
+    list-style: none;
+}
+
+.rightNav li a{
+    text-decoration: none;
+    color: #96989a;
+    transition: color 100ms ease-in;
+}
+
+/* a */
+
+li a:hover{
+    color: white;
+}
+
+/*button*/
+
+#menu {
+    display: none;
+    width:52px;
+    height:34px;
+    font-size: 22px;
+    background-color: #212529;
+    color: #96989a;
+    border-radius: 7px;
+    border: .5px solid #96989a;
+    position: absolute;
+    right: 3%;
+    top:10px;
+    cursor: pointer;
+}
+
+#menu:active{
+    border: 3px solid #96989a;
+}
+
+/*media qury*/
+
+
+@media (max-width:750px) {
+    /* .nav-itm {
+        display: none;
+    } */
+
+    .navbar{
+        height: 262px;
+        flex-direction: column;
+        transition: height 0.3s linear;
+        overflow: hidden;
+    }
+
+    .nav-list{
+        width: 70%;
+        flex-direction: column;
+        align-items: start;
+    }
+    .rightNav {
+        flex-direction: column;
+        align-items: start;
+        padding-left: 20px;
+        padding-bottom: 10px;
+    }
+    .h-menu{
+        width: 30%;
+        justify-content:safe;
+    }
+    
+    #menu {
+        display: block;
+    }
+
+    .h-nav{
+        height: 57.2px;
+    }
+
+
+    .anime{
+        animation-name: fade;
+        animation-duration: 450ms;
+    }
+
+}
+
+    
+@keyframes fade {
+    0% {opacity:0%}
+    25% {opacity:0%}
+    50% {opacity:0%}
+    75% {opacity:75%}
+    100% {opacity:100%}
+}

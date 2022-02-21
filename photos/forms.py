@@ -9,11 +9,11 @@ class Upload(ModelForm):
         fields = ['description', 'image', 'tags', 'is_private']
         widgets = {
                     'description': Textarea(
-                        attrs={'class': 'form-control border-secondary', 'placeholder': 'enter description', 'id': 'validationTextarea','rows': 5, 'required': True}),
+                        attrs={'class': 'txt form-control border-secondary', 'placeholder': 'enter description', 'id': 'validationTextarea','rows': 5, 'required': True}),
                     'image': FileInput(
-                        attrs={'class': 'form-control border-secondary' ,'type': 'file', 'required': True}),
+                        attrs={'class': 'txt form-control border-secondary' ,'type': 'file', 'required': True}),
                     'tags': TagWidget(
-                        attrs={'class': 'form-control border-secondary', 'data-role' : "tagsinput"}),
+                        attrs={'class': 'txt form-control border-secondary', 'data-role' : "tagsinput"}),
                     'is_private': CheckboxInput(
                         attrs={'class': 'form-check-input', 'role': 'switch', 'id': 'flexSwitchCheckDefault'}
                     )
@@ -46,11 +46,11 @@ class Update(ModelForm):
         fields = ['description', 'tags', 'is_private']
         widgets = {
                     'description': Textarea(
-                        attrs={'class': 'form-control border-secondary', 'placeholder': 'enter description', 'id': 'validationTextarea','rows': 5, 'required': True}),
+                        attrs={'class': 'txt form-control border-secondary', 'placeholder': 'enter description', 'id': 'validationTextarea','rows': 5, 'required': True}),
                     'category': Select(
-                        attrs={'class': 'form-select border-secondary', 'aria-label': "Default select example"}),
+                        attrs={'class': 'txt form-select border-secondary', 'aria-label': "Default select example"}),
                     'tags': TagWidget(
-                        attrs={'class': 'form-control border-secondary', 'data-role' : "tagsinput"}),
+                        attrs={'class': 'txt form-control border-secondary', 'data-role' : "tagsinput"}),
                     'is_private': CheckboxInput(
                         attrs={'class': 'form-check-input', 'role': 'switch', 'id': 'flexSwitchCheckDefault'}
                     )
