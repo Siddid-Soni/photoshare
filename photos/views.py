@@ -64,7 +64,7 @@ class Gallery(ListView):
     model = Photo
     template_name = 'photos/gallery.html'
     context_object_name = 'photos'
-    paginate_by = 9
+    paginate_by = 20
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(Gallery, self).get_context_data(**kwargs)
@@ -119,7 +119,7 @@ class UserGallery(ListView):
     model = Photo
     template_name = 'photos/user_photos.html'
     context_object_name = 'photos'
-    paginate_by = 9
+    paginate_by = 20
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserGallery, self).get_context_data(**kwargs)
