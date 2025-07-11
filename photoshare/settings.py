@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'taggit',
+    'storages',
 ]
 
 MIDDLEWARE = [
