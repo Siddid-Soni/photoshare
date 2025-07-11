@@ -25,7 +25,7 @@ SECRET_KEY = 'ot!=0r8p-nuilr0kq5b88!51o&ox_uxe2n8xst=n^u_jc=3oax'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.0.8', '127.0.0.1']
+ALLOWED_HOSTS = ['10.0.0.8', '127.0.0.1', '951c-27-5-213-18.ngrok-free.app']
 
 
 # Application definition
@@ -142,5 +142,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "siddidsoni2@gmail.com"      #enter an spare email id 
-EMAIL_HOST_PASSWORD = "bati@2006"           #enter the password
+EMAIL_HOST_USER = ""      #enter an spare email id 
+EMAIL_HOST_PASSWORD = ""           #enter the password
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
+AWS_STORAGE_BUCKET_NAME = ''
+AWS_DEFAULT_ACL = 'public-read'
+AWS_QUERYSTRING_AUTH = False
