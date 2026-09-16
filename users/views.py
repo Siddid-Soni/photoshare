@@ -20,6 +20,13 @@ class UserLogin(LoginView):
     def get_success_url(self):
         return reverse_lazy('gallery')
 
+
+class UserLogout(LogoutView):
+    template_name = 'users/logout.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)

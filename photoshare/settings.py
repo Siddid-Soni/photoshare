@@ -25,7 +25,7 @@ SECRET_KEY = 'ot!=0r8p-nuilr0kq5b88!51o&ox_uxe2n8xst=n^u_jc=3oax'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.0.8', '127.0.0.1', '951c-27-5-213-18.ngrok-free.app']
+ALLOWED_HOSTS = ['10.0.0.8', '127.0.0.1', 'localhost', '951c-27-5-213-18.ngrok-free.app']
 
 
 # Application definition
@@ -40,11 +40,15 @@ INSTALLED_APPS = [
     'photos.apps.PhotosConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'crispy_bootstrap5',
     'taggit',
     'storages',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,7 +63,7 @@ ROOT_URLCONF = 'photoshare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'frontend' / 'dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,7 +127,10 @@ LOGIN_REDIRECT_URL='gallery'
 
 LOGIN_URL='login'
 
-CRISPY_TEMPLATE_PACK='bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -132,8 +139,12 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
 ]
+
+FRONTEND_DIST = BASE_DIR / 'frontend' / 'dist'
+if FRONTEND_DIST.is_dir():
+    STATICFILES_DIRS.append(FRONTEND_DIST / 'assets')
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -147,9 +158,33 @@ EMAIL_HOST_USER = ""      #enter an spare email id
 EMAIL_HOST_PASSWORD = ""           #enter the password
 
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_STORAGE_BUCKET_NAME = ''
-AWS_DEFAULT_ACL = 'public-read'
-AWS_QUERYSTRING_AUTH = False
+# Local development uses local file storage.
+# For S3, uncomment and fill in credentials:
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = ''
+# AWS_SECRET_ACCESS_KEY = ''
+# AWS_STORAGE_BUCKET_NAME = ''
+# AWS_DEFAULT_ACL = 'public-read'
+# AWS_QUERYSTRING_AUTH = False
+
+# --- API / SPA ---
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    'http://localhost:5173',
+]
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    'http://localhost:5173',
+]
