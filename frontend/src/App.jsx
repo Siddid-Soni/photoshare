@@ -12,7 +12,7 @@ import UserPhotos from './pages/UserPhotos.jsx';
 function RequireAuth({ children }) {
   const { user, loading } = useAuth();
   const location = useLocation();
-  if (loading) return <div className="container"><p style={{ color: 'var(--muted)' }}>Loading…</p></div>;
+  if (loading) return <div className="container"><p className="mono-label">Loading archive…</p></div>;
   if (!user) return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   return children;
 }
@@ -32,15 +32,19 @@ function Shell() {
           <Route path="/register" element={<Register />} />
           <Route path="*" element={
             <div className="empty">
-              <div className="empty-icon">🔍</div>
-              <h3>Page not found</h3>
-              <p>The page you are looking for does not exist.</p>
-              <div style={{ marginTop: 12 }}><Link className="btn btn-primary" to="/">Back to gallery</Link></div>
+              <h3>Frame not found.</h3>
+              <p>The page you asked for was never filed in this archive.</p>
+              <div style={{ marginTop: 16 }}><Link className="btn btn-primary" to="/">Back to index</Link></div>
             </div>
           } />
         </Routes>
         <footer className="footer">
-          PhotoShare · React + Django · <a href="/legacy/">Legacy UI</a> · <a href="/admin/">Admin</a>
+          <span className="footer-brand">PHOTOSHARE — DARKROOM № 01</span>
+          <span>
+            <a href="/legacy/">Legacy UI</a>
+            <a href="/admin/">Admin</a>
+            <a href="/api/photos/">API</a>
+          </span>
         </footer>
       </main>
     </>

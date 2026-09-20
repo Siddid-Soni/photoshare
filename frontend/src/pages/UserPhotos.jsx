@@ -23,27 +23,29 @@ export default function UserPhotos() {
   useEffect(() => { load(1); }, [load]);
 
   const results = data?.results || [];
+  const firstAvatar = results.find((p) => p.author_avatar)?.author_avatar;
 
   return (
     <>
       <div className="profile-head">
-        <div style={{ width: 84, height: 84, borderRadius: 24, background: 'linear-gradient(135deg,var(--brand),var(--brand-2))', display: 'grid', placeItems: 'center', fontSize: 34, fontWeight: 800 }}>
-          {(username || '?')[0].toUpperCase()}
+        {firstAvatar
+          ? <img src={firstAvatar} alt={username} />
+          : <span className="avatar fallback" style={{ width: 76, height: 76, fontSize: 30 }}>{(username || '?')[0].toUpperCase()}</span>}
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div className="mono-label">Artist wall</div>
+          <h2 style={{ margin: '6px 0 2px' }}>@{username}</h2>
+          <div style={{ color: 'var(--muted)', fontSize: 13.5 }}>{data?.count ?? '—'} frames on public view</div>
         </div>
-        <div>
-          <h2 style={{ margin: 0 }}>@{username}</h2>
-          <div style={{ color: 'var(--muted)', fontSize: 14 }}>{data?.count ?? ''} photos</div>
-          <div style={{ marginTop: 10 }}><Link className="btn btn-ghost btn-sm" to="/">← Explore</Link></div>
-        </div>
+        <Link className="btn btn-ghost btn-sm" to="/">← Index</Link>
       </div>
       {loading ? <Skeletons /> : results.length === 0 ? (
-        <Empty title={`@${username} hasn't shared visible photos`} hint="Photos they mark private are hidden from everyone else." />
+        <Empty title={`@${username} keeps this wall bare`} hint="Anything marked private stays in their drawer — invisible to the rest of us." />
       ) : (
         <>
-          <div className="masonry">{results.map((p) => <PhotoCard key={p.id} photo={p} />)}</div>
+          <div className="masonry">{results.map((p, i) => <PhotoCard key={p.id} photo={p} index={i} />)}</div>
           <div className="pager">
             {data.previous && <button className="btn btn-ghost btn-sm" onClick={() => load(page - 1)}>← Prev</button>}
-            <span style={{ alignSelf: 'center', color: 'var(--muted)', fontSize: 13 }}>Page {page}</span>
+            <span className="page-no">— {String(page).padStart(2, '0')} —</span>
             {data.next && <button className="btn btn-ghost btn-sm" onClick={() => load(page + 1)}>Next →</button>}
           </div>
         </>

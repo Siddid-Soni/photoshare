@@ -27,19 +27,20 @@ export default function Register() {
   return (
     <div className="center">
       <div className="auth-card">
-        <h1>Create your account</h1>
-        <p>Join PhotoShare to start building your public portfolio.</p>
+        <div className="kicker" style={{ fontSize: 10 }}>Membership — free</div>
+        <h1>Take a shelf.</h1>
+        <p>One account, unlimited frames. Pick a handle and hang your first print.</p>
         {errors.non_field_errors && <div className="alert alert-error">{errors.non_field_errors}</div>}
         {errors.detail && <div className="alert alert-error">{errors.detail}</div>}
         <form onSubmit={submit}>
           <div className="field">
-            <label className="label">Username</label>
-            <input className="input" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} autoComplete="username" required />
+            <label className="label">Handle</label>
+            <input className="input" value={form.username} placeholder="e.g. agnes_varda" onChange={(e) => setForm({ ...form, username: e.target.value })} autoComplete="username" required />
             {errors.username && <div className="field-error">{errors.username}</div>}
           </div>
           <div className="field">
             <label className="label">Email</label>
-            <input className="input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" required />
+            <input className="input" type="email" value={form.email} placeholder="you@studio.com" onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" required />
             {errors.email && <div className="field-error">{errors.email}</div>}
           </div>
           <div className="field">
@@ -52,9 +53,9 @@ export default function Register() {
             <input className="input" type="password" value={form.password2} onChange={(e) => setForm({ ...form, password2: e.target.value })} autoComplete="new-password" required />
             {errors.password2 && <div className="field-error">{errors.password2}</div>}
           </div>
-          <button className="btn btn-primary" style={{ width: '100%' }} disabled={busy}>{busy ? 'Creating…' : 'Sign up'}</button>
+          <button className="btn btn-accent" style={{ width: '100%' }} disabled={busy}>{busy ? 'Filing…' : 'Claim your handle'}</button>
         </form>
-        <p style={{ marginTop: 16, marginBottom: 0 }}>Already have an account? <Link to="/login">Log in</Link></p>
+        <p style={{ marginTop: 18, marginBottom: 0 }}>Already filed? <Link to="/login">Sign in</Link></p>
       </div>
     </div>
   );

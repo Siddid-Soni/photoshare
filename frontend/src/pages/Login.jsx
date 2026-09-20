@@ -28,8 +28,9 @@ export default function Login() {
   return (
     <div className="center">
       <div className="auth-card">
-        <h1>Welcome back</h1>
-        <p>Log in to upload photos and manage your gallery.</p>
+        <div className="kicker" style={{ fontSize: 10 }}>Members entrance</div>
+        <h1>Welcome back.</h1>
+        <p>The enlarger is still warm. Sign in to keep filing.</p>
         {error && <div className="alert alert-error">{error}</div>}
         <form onSubmit={submit}>
           <div className="field">
@@ -40,9 +41,9 @@ export default function Login() {
             <label className="label">Password</label>
             <input className="input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} autoComplete="current-password" required />
           </div>
-          <button className="btn btn-primary" style={{ width: '100%' }} disabled={busy}>{busy ? 'Logging in…' : 'Log in'}</button>
+          <button className="btn btn-primary" style={{ width: '100%' }} disabled={busy}>{busy ? 'Developing…' : 'Log in'}</button>
         </form>
-        <p style={{ marginTop: 16, marginBottom: 0 }}>New here? <Link to="/register">Create an account</Link></p>
+        <p style={{ marginTop: 18, marginBottom: 0 }}>No card yet? <Link to="/register">Request membership</Link></p>
       </div>
     </div>
   );
